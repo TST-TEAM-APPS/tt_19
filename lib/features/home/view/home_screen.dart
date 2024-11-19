@@ -376,13 +376,13 @@ class BarChartSample2State extends State<BarChartSample2> {
   }
 
   void showingEmptyBarGroupsData() {
-    final barGroup1 = makeGroupData(0, 2, 3);
-    final barGroup2 = makeGroupData(1, 4, 5);
-    final barGroup3 = makeGroupData(2, 6, 7);
-    final barGroup4 = makeGroupData(3, 8, 9);
-    final barGroup5 = makeGroupData(4, 10, 11);
-    final barGroup6 = makeGroupData(5, 12, 13);
-    final barGroup7 = makeGroupData(6, 14, 15);
+    final barGroup1 = makeEmptyGroupData(0, 2, 3);
+    final barGroup2 = makeEmptyGroupData(1, 4, 5);
+    final barGroup3 = makeEmptyGroupData(2, 6, 7);
+    final barGroup4 = makeEmptyGroupData(3, 8, 9);
+    final barGroup5 = makeEmptyGroupData(4, 10, 11);
+    final barGroup6 = makeEmptyGroupData(5, 12, 13);
+    final barGroup7 = makeEmptyGroupData(6, 14, 15);
     final items = [
       barGroup1,
       barGroup2,
@@ -602,6 +602,27 @@ class BarChartSample2State extends State<BarChartSample2> {
       barsSpace: 0,
       x: x,
       showingTooltipIndicators: [0],
+      barRods: [
+        BarChartRodData(
+            toY: y1,
+            color: AppColors.primary,
+            width: width,
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(5), topRight: Radius.circular(5))),
+        BarChartRodData(
+            toY: y2,
+            color: AppColors.green,
+            width: width,
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(5), topRight: Radius.circular(5))),
+      ],
+    );
+  }
+
+  BarChartGroupData makeEmptyGroupData(int x, double y1, double y2) {
+    return BarChartGroupData(
+      barsSpace: 0,
+      x: x,
       barRods: [
         BarChartRodData(
             toY: y1,
