@@ -35,7 +35,7 @@ class HomeScreenViewModel extends ChangeNotifier {
             transactionModelList: _transactionModelService.weeklyTransactions),
         balance: _transactionModelService.balance,
       );
+      notifyListeners();
     });
-    notifyListeners();
   }
 }

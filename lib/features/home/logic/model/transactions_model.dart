@@ -40,11 +40,10 @@ enum TransactionType {
 @HiveType(typeId: 2)
 class Category {
   @HiveField(0)
-  String name;
-  @HiveField(1)
   CategoryType categoryType;
-
-  Category({required this.name, required this.categoryType});
+  @HiveField(1)
+  String imagePath;
+  Category({required this.categoryType, required this.imagePath});
 }
 
 @HiveType(typeId: 3)

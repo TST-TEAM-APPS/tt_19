@@ -50,7 +50,7 @@ class _CustomButtonState extends State<CustomButton> {
   Widget build(BuildContext context) {
     return Material(
       color:
-          widget.isValid ?? true ? widget.backgroundColor : AppColors.darkGrey,
+          widget.isValid ?? true ? widget.backgroundColor : AppColors.secondary,
       borderRadius: widget.borderRadius,
       child: InkWell(
         highlightColor: widget.highlightColor ?? Colors.white.withOpacity(0.7),
@@ -76,7 +76,7 @@ class _CustomButtonState extends State<CustomButton> {
                       style: widget.titleStyle?.copyWith(
                           color: widget.isValid ?? true
                               ? widget.titleStyle?.color
-                              : AppColors.secondary),
+                              : AppColors.white.withOpacity(0.5)),
                     ),
                   )
                 : Text(

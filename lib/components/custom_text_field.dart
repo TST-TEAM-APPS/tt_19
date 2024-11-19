@@ -51,21 +51,17 @@ class _CustomTextFieldState extends State<CustomTextField> {
         fillColor: AppColors.primary,
         filled: true,
         hintText: widget.hintText,
-        hintStyle: AppFonts.bodyMedium.copyWith(color: AppColors.darkGrey),
+        hintStyle: AppFonts.bodyMedium.copyWith(color: Colors.white60),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30), // Круглый border
+          borderRadius: BorderRadius.circular(10),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(
-              30), // Круглый border для активного состояния
-          borderSide:
-              const BorderSide(color: AppColors.background), // Цвет рамки
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: AppColors.background),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius:
-              BorderRadius.circular(30), // Круглый border для состояния фокуса
-          borderSide: const BorderSide(
-              color: AppColors.primary), // Цвет рамки при фокусе
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: AppColors.primary),
         ),
       ),
     );

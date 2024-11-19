@@ -14,7 +14,7 @@ class TransactionService {
     final transactionModelBox =
         await Hive.openBox<TransactionModel>('_transactionsList');
 
-    _transactionsList = transactionModelBox.values.toList();
+    _transactionsList = transactionModelBox.values.toList().reversed.toList();
     await getBalance();
     await getWeeklyTransactions();
   }

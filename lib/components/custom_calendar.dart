@@ -27,12 +27,12 @@ class _CustomCalendarState extends State<CustomCalendar> {
       color: Colors.white,
     ),
     weekdayLabels: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-    weekdayLabelTextStyle: AppFonts.bodyMedium.copyWith(color: AppColors.white),
+    weekdayLabelTextStyle: AppFonts.bodySmall.copyWith(color: AppColors.white),
     firstDayOfWeek: 1,
     controlsHeight: 50,
     dayMaxWidth: 25,
-    controlsTextStyle: AppFonts.bodySmall.copyWith(color: AppColors.white),
-    dayTextStyle: AppFonts.bodyMedium.copyWith(color: AppColors.white),
+    controlsTextStyle: AppFonts.bodyLarge.copyWith(color: AppColors.white),
+    dayTextStyle: AppFonts.bodyLarge.copyWith(color: AppColors.white),
     disabledDayTextStyle: const TextStyle(
       color: Colors.white,
     ),
@@ -42,13 +42,13 @@ class _CustomCalendarState extends State<CustomCalendar> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: 40,
+        horizontal: 20,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: AppColors.secondary,
+        color: AppColors.background,
       ),
-      height: 218,
+      height: 250,
       child: CalendarDatePicker2(
         config: config,
         value: widget.value,
