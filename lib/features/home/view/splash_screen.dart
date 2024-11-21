@@ -5,6 +5,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:is_first_run/is_first_run.dart';
 import 'package:tt_19/features/onb/onb_screen.dart';
+import 'package:tt_19/features/parent_screen/parent_screen.dart';
 import 'package:tt_19/features/settings/ui/privacy_screen.dart';
 import 'package:tt_19/services/mixins/network_mixin.dart';
 
@@ -35,7 +36,7 @@ class _SplashViewState extends State<SplashView> with NetworkMixin {
       InAppReview.instance.requestReview();
     }
 
-    if (canNavigate) {
+    if (!canNavigate) {
       if (isFirst) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
@@ -45,7 +46,7 @@ class _SplashViewState extends State<SplashView> with NetworkMixin {
       } else {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => const Onb(),
+            builder: (context) => const ParentScreen(),
           ),
         );
       }

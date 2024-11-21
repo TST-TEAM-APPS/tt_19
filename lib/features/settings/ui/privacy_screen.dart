@@ -1,14 +1,11 @@
 import 'dart:developer';
-import 'dart:io';
-import 'package:flutter/cupertino.dart';
+import 'package:custom_progressbar/custom_progressbar.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:tt_19/services/flagsmith.dart';
-import 'package:tt_6/business/services/config_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tt_19/features/home/view/splash_screen.dart';
+import 'package:tt_19/services/mixins/network_mixin.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
-
-
 
 class PrivacyScreen extends StatefulWidget {
   const PrivacyScreen({super.key});
@@ -17,27 +14,13 @@ class PrivacyScreen extends StatefulWidget {
   State<PrivacyScreen> createState() => _PrivacyScreenState();
 }
 
-class _PrivacyScreenState extends State<PrivacyScreen> {
+class _PrivacyScreenState extends State<PrivacyScreen> with NetworkMixin {
   late final WebViewController _controller;
-  final _flagsmith = GetIt.I<Flagsmith>();
-  final manager = WebViewCookieManager();
 
   var isLoading = true;
+  final String lastVisitedUrlKey = "lastVisitedUrl";
 
   String get _cssCode {
-    if (Platform.isAndroid) {
-      return """
-        .docs-ml-promotion { 
-          display: none !important; 
-        } 
-        #docs-ml-header-id {
-          display: none !important;
-        }
-        .app-container { 
-          margin: 0 !important; 
-        }
-      """;
-    }
     return ".docs-ml-promotion, #docs-ml-header-id { display: none !important; } .app-container { margin: 0 !important; }";
   }
 
@@ -52,7 +35,6 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
   void initState() {
     super.initState();
 
-    
     late final PlatformWebViewControllerCreationParams params;
     if (WebViewPlatform.instance is WebKitWebViewPlatform) {
       params = WebKitWebViewControllerCreationParams(
@@ -65,7 +47,6 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
 
     final WebViewController controller =
         WebViewController.fromPlatformCreationParams(params);
-    // #enddocregion platform_features
 
     controller
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -92,27 +73,67 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                 isForMainFrame: ${error.isForMainFrame}
           ''');
             if (error.errorCode == -1009) {
-             Navigator.of(context).pushReplacement(MaterialPageRoute(builder:  ));  
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const SplashView(),
+                ),
+              );
             }
           },
           onNavigationRequest: (NavigationRequest request) {
             log('allowing navigation to ${request.url}');
             return NavigationDecision.navigate;
           },
-          onUrlChange: (UrlChange change) {
-            log('url change to ${change.url}');
+          onUrlChange: (UrlChange change) async {
+            log('URL changed to ${change.url}');
+            if (change.url != null) {
+              await _saveLastVisitedUrl(change.url!);
+            }
           },
         ),
-      )
-      ..loadRequest(Uri.parse(link));
+      );
 
-
-if (controller.platform is WebKitWebViewController) {
+    if (controller.platform is WebKitWebViewController) {
       (controller.platform as WebKitWebViewController)
           .setAllowsBackForwardNavigationGestures(true);
     }
 
     _controller = controller;
+
+    _loadUrl().then((urlToLoad) {
+      _controller.loadRequest(Uri.parse(urlToLoad));
+    });
+  }
+
+  Future<void> _saveLastVisitedUrl(String url) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(lastVisitedUrlKey, url);
+      log('Last visited URL saved: $url');
+    } catch (e) {
+      log('Error saving last visited URL: $e');
+    }
+  }
+
+  Future<String> _loadUrl() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final initialLink = prefs.getString('initialLink');
+      if (initialLink == null) {
+        prefs.setString('initialLink', link);
+      } else {
+        if (link != initialLink) {
+          prefs.setString('initialLink', link);
+          return link;
+        }
+      }
+      final url = prefs.getString(lastVisitedUrlKey) ?? link;
+      log('Last visited URL loaded: $url');
+      return url;
+    } catch (e) {
+      log('Error loading last visited URL: $e');
+      return link;
+    }
   }
 
   @override
@@ -122,9 +143,17 @@ if (controller.platform is WebKitWebViewController) {
       body: SafeArea(
         child: isLoading
             ? Center(
-                child: CupertinoActivityIndicator(
-                  radius: 20,
-                  color: Theme.of(context).colorScheme.primary,
+                child: ProgressBar(
+                  containerWidth: 150,
+                  containerHeight: 150,
+                  progressColor: const Color(0xFF585555),
+                  boxFit: BoxFit.contain,
+                  iconHeight: 120,
+                  iconWidth: 120,
+                  imageFile: 'assets/images/icon.png',
+                  progressHeight: 150,
+                  progressWidth: 150,
+                  progressStrokeWidth: 7,
                 ),
               )
             : WebViewWidget(controller: _controller),

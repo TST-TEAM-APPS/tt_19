@@ -4,7 +4,7 @@ import 'package:flagsmith/flagsmith.dart';
 import 'package:tt_19/models/config.dart';
 
 class Flagsmith {
-  static const _apikey = 'RyRVYZcXELbojc8qigQX6n';
+  static const _apikey = 'iwfkEtGuTneTiJAD3BXnHo';
 
   late final FlagsmithClient _flagsmithClient;
 

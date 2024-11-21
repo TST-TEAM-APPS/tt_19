@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tt_19/components/custom_button.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:tt_19/core/app_fonts.dart';
 import 'package:tt_19/core/colors.dart';
+import 'package:tt_19/services/mixins/config_mixin.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -10,7 +13,7 @@ class SettingsScreen extends StatefulWidget {
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _SettingsScreenState extends State<SettingsScreen> with ConfigMixin {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -34,14 +37,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               _SettingsItem(
                 title: 'Contact us',
-                onTap: () {},
+                onTap: () async => await FlutterEmailSender.send(
+                  Email(
+                    recipients: ['govathotiamarsaichaitanya448@gmail.com'],
+                    subject: 'Message to support', 
+                    body: 'Thank you for your feedback!'
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 5,
               ),
               _SettingsItem(
-                title: 'Send message',
-                onTap: () {},
+                title: 'Rate us',
+                onTap: () async => await InAppReview.instance.requestReview(),
               ),
               const SizedBox(
                 height: 20,
@@ -55,22 +64,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 height: 20,
               ),
               _SettingsItem(
-                title: 'Share this app',
-                onTap: () {},
+                title: 'Privacy Policy',
+                onTap: () => launchUrlString(privacyLink),
               ),
               const SizedBox(
                 height: 5,
               ),
               _SettingsItem(
-                title: 'About us',
-                onTap: () {},
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              _SettingsItem(
-                title: 'Rate us',
-                onTap: () {},
+                title: 'Terms of use',
+                onTap: () => launchUrlString(termsLink),
               ),
               const Expanded(child: SizedBox()),
               Align(
@@ -85,17 +87,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const SizedBox(
                 height: 5,
               ),
-              Align(
-                  alignment: Alignment.bottomCenter,
-                  child: CustomButton.alert(
-                    borderRadius: BorderRadius.circular(10),
-                    highlightColor: AppColors.outlinedGreen,
-                    title: 'Terms & Privacy',
-                    onTap: () {},
-                    titleStyle: AppFonts.bodyMedium.copyWith(
-                      color: AppColors.white,
-                    ),
-                  )),
             ],
           ),
         ),
