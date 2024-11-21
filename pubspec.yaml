@@ -1,7 +1,7 @@
 name: tt_19
 description: "A new Flutter project."
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none' 
 
 version: 1.0.0+1
 
@@ -47,7 +47,7 @@ dev_dependencies:
 
   
 flutter_native_splash:
-  color: "#E60C01" 
+  color: "#6486CC" 
   image: assets/images/icon.png 
   
 flutter_launcher_icons:
