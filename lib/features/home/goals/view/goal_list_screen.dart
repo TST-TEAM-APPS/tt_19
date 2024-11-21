@@ -13,18 +13,16 @@ class GoalListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SafeArea(
         child: Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            children: [
-              _AppBar(),
-              SizedBox(
-                height: 20,
-              ),
-              GoalListWidget(),
-            ],
-          ),
+      body: Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          children: [
+            _AppBar(),
+            SizedBox(
+              height: 20,
+            ),
+            GoalListWidget(),
+          ],
         ),
       ),
     ));
@@ -49,143 +47,170 @@ class GoalListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.watch<GoalViewModel>();
     final modelList = model.goalState.goalist;
-    return ListView.separated(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (BuildContext context, int index) {
-        return Material(
-          borderRadius: BorderRadius.circular(10),
-          color: Color(modelList[index].color!),
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => GoalDetailsScreen(
-                    viewModel: model,
-                    model: modelList[index],
+    return modelList.isNotEmpty
+        ? ListView.separated(
+            shrinkWrap: true,
+            itemBuilder: (BuildContext context, int index) {
+              return Material(
+                borderRadius: BorderRadius.circular(10),
+                color: Color(modelList[index].color!),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GoalDetailsScreen(
+                          viewModel: model,
+                          model: modelList[index],
+                        ),
+                      ),
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(10),
+                  highlightColor: Colors.white.withOpacity(0.5),
+                  child: Container(
+                    height: 106,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.transparent,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Image.asset(
+                              modelList[index].imagePath,
+                              height: 24,
+                              width: 24,
+                              fit: BoxFit.cover,
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              modelList[index].name,
+                              style: AppFonts.bodyLarge.copyWith(
+                                color: AppColors.white,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                            const Expanded(child: const SizedBox()),
+                            const Icon(
+                              Icons.arrow_forward_ios,
+                              color: AppColors.white,
+                              size: 24,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Stack(
+                          children: [
+                            Material(
+                              borderRadius: BorderRadius.circular(10),
+                              color: AppColors.background,
+                              child: Container(
+                                width: double.infinity,
+                                height: 24,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.transparent,
+                                ),
+                              ),
+                            ),
+                            Material(
+                              borderRadius: BorderRadius.circular(10),
+                              color: AppColors.onPrimary,
+                              child: Container(
+                                width: modelList[index].goalAmount == 0
+                                    ? double.infinity
+                                    : ((MediaQuery.of(context).size.width -
+                                                60) /
+                                            modelList[index].goalAmount) *
+                                        int.parse(model
+                                            .getTotalSavings(modelList[index])),
+                                height: 24,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.transparent,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '\$${int.parse(model.getTotalSavings(modelList[index]))} / \$${modelList[index].goalAmount}',
+                              style: AppFonts.bodyMedium.copyWith(
+                                color: AppColors.white,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                            Text(
+                              daysLeft(modelList[index].endingDate),
+                              style: AppFonts.bodyMedium.copyWith(
+                                color: AppColors.white,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               );
             },
-            borderRadius: BorderRadius.circular(10),
-            highlightColor: Colors.white.withOpacity(0.5),
-            child: Container(
-              height: 106,
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.transparent,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset(
-                        modelList[index].imagePath,
-                        height: 24,
-                        width: 24,
-                        fit: BoxFit.cover,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text(
-                        modelList[index].name,
-                        style: AppFonts.bodyLarge.copyWith(
-                          color: AppColors.white,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                      const Expanded(child: const SizedBox()),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        color: AppColors.white,
-                        size: 24,
-                      ),
-                    ],
+            itemCount: modelList.length,
+            separatorBuilder: (BuildContext context, int index) {
+              return const SizedBox(
+                height: 10,
+              );
+            },
+          )
+        : Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/icons/no-savings.png',
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.cover,
+                ),
+                Text(
+                  'No goals yet.',
+                  style: AppFonts.bodyMedium.copyWith(
+                    color: AppColors.white,
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Stack(
-                    children: [
-                      Material(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AppColors.background,
-                        child: Container(
-                          width: double.infinity,
-                          height: 24,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.transparent,
-                          ),
-                        ),
-                      ),
-                      Material(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AppColors.onPrimary,
-                        child: Container(
-                          width: modelList[index].goalAmount == 0
-                              ? double.infinity
-                              : ((MediaQuery.of(context).size.width - 60) /
-                                      modelList[index].goalAmount) *
-                                  int.parse(
-                                      model.getTotalSavings(modelList[index])),
-                          height: 24,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.transparent,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '\$${int.parse(model.getTotalSavings(modelList[index]))} / \$${modelList[index].goalAmount}',
-                        style: AppFonts.bodyMedium.copyWith(
-                          color: AppColors.white,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                      Text(
-                        daysLeft(modelList[index].endingDate),
-                        style: AppFonts.bodyMedium.copyWith(
-                          color: AppColors.white,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    ],
-                  )
-                ],
-              ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ],
             ),
-          ),
-        );
-      },
-      itemCount: modelList.length,
-      separatorBuilder: (BuildContext context, int index) {
-        return const SizedBox(
-          height: 10,
-        );
-      },
-    );
+          );
   }
 }
 
-class _AppBar extends StatelessWidget {
+class _AppBar extends StatefulWidget {
   const _AppBar();
 
+  @override
+  State<_AppBar> createState() => _AppBarState();
+}
+
+class _AppBarState extends State<_AppBar> {
   @override
   Widget build(BuildContext context) {
     final model = context.read<GoalViewModel>();
@@ -197,6 +222,7 @@ class _AppBar extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           onTap: () {
             Navigator.pop(context);
+            setState(() {});
           },
           child: const Icon(
             Icons.arrow_back_ios,
@@ -205,7 +231,7 @@ class _AppBar extends StatelessWidget {
           ),
         ),
         Text(
-          'Transactions',
+          'My goals',
           style: AppFonts.displayMedium.copyWith(color: AppColors.white),
           overflow: TextOverflow.ellipsis,
           maxLines: 1,

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tt_25/components/custom_button.dart';
 import 'package:tt_25/core/app_fonts.dart';
 import 'package:tt_25/core/colors.dart';
+import 'package:tt_25/features/home/goals/model/goals_model.dart';
 import 'package:tt_25/features/home/goals/view/goal_list_screen.dart';
 import 'package:tt_25/features/home/goals/view_model/goal_view_model.dart';
 import 'package:tt_25/features/home/logic/model/transactions_model.dart';
@@ -45,9 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: BarChartSample2(),
               ),
               _MyGoalsWidget(),
-              SizedBox(
-                height: 20,
-              ),
               _RecentTransactions(),
               SizedBox(
                 height: 20,
@@ -63,33 +61,190 @@ class _HomeScreenState extends State<HomeScreen> {
 class _MyGoalsWidget extends StatelessWidget {
   const _MyGoalsWidget();
 
+  String getTotalSavings(GoalModel model) {
+    final totalSavings = model.savingModel.fold<int>(
+      0,
+      (innerSum, goal) => innerSum + (goal.savingAmount ?? 0),
+    );
+
+    return totalSavings.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<HomeScreenViewModel>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'My goals',
-          style: AppFonts.bodyLarge.copyWith(
-            color: AppColors.white,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'My goals',
+              style: AppFonts.bodyLarge.copyWith(
+                color: AppColors.white,
+              ),
+            ),
+            if (model.homeScreenState.goalModel != null)
+              Material(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(15),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ChangeNotifierProvider(
+                            create: (_) => GoalViewModel(),
+                            child: const GoalListScreen()),
+                      ),
+                    ).then((_) {
+                      model.loadData();
+                    });
+                  },
+                  borderRadius: BorderRadius.circular(15),
+                  highlightColor: AppColors.white.withOpacity(0.2),
+                  child: Container(
+                    width: 24,
+                    height: 24,
+                    color: Colors.transparent,
+                    child: Center(
+                      child: Text(
+                        '+',
+                        style: AppFonts.displayMedium.copyWith(
+                          color: AppColors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+          ],
         ),
         const SizedBox(
           height: 20,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              'No goals yet.',
-              style: AppFonts.bodyMedium.copyWith(
-                color: AppColors.white,
+        if (model.homeScreenState.goalModel == null)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                'No goals yet.',
+                style: AppFonts.bodyMedium.copyWith(
+                  color: AppColors.white,
+                ),
               ),
-            ),
-            SizedBox(
-              width: 130,
+              SizedBox(
+                width: 130,
+                child: CustomButton.alert(
+                  title: 'Let`s add some +',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ChangeNotifierProvider(
+                            create: (_) => GoalViewModel(),
+                            child: const GoalListScreen()),
+                      ),
+                    ).then((_) {
+                      model.loadData();
+                    });
+                  },
+                  borderRadius: BorderRadius.circular(20),
+                  titleStyle: AppFonts.bodyMedium.copyWith(
+                    color: AppColors.primary,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        if (model.homeScreenState.goalModel != null)
+          Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(1),
+                child: Container(
+                  width: model.homeScreenState.goalModel!.goalAmount == 0
+                      ? double.infinity
+                      : ((MediaQuery.of(context).size.width - 42) /
+                              model.homeScreenState.goalModel!.goalAmount) *
+                          int.parse(getTotalSavings(
+                              model.homeScreenState.goalModel!)),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: AppColors.orange,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        model.homeScreenState.goalModel!.name,
+                        style: AppFonts.bodyMedium.copyWith(
+                          color: AppColors.white,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        '\$${int.parse(getTotalSavings(model.homeScreenState.goalModel!))} / \$${model.homeScreenState.goalModel!.goalAmount}',
+                        style: AppFonts.bodyMedium.copyWith(
+                          color: AppColors.white,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                height: 50,
+                width: double.infinity,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.transparent,
+                    border:
+                        Border.all(width: 1, color: AppColors.outlinedGreen)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      model.homeScreenState.goalModel!.name,
+                      style: AppFonts.bodyMedium.copyWith(
+                        color: AppColors.white,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      '\$${int.parse(getTotalSavings(model.homeScreenState.goalModel!))} / \$${model.homeScreenState.goalModel!.goalAmount}',
+                      style: AppFonts.bodyMedium.copyWith(
+                        color: AppColors.white,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        if (model.homeScreenState.goalModel != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Center(
               child: CustomButton.alert(
-                title: 'Let`s add some +',
+                title: 'See all',
                 onTap: () {
                   Navigator.push(
                     context,
@@ -98,15 +253,19 @@ class _MyGoalsWidget extends StatelessWidget {
                           create: (_) => GoalViewModel(),
                           child: const GoalListScreen()),
                     ),
-                  );
+                  ).then((_) {
+                    model.loadData();
+                  });
                 },
                 borderRadius: BorderRadius.circular(20),
                 titleStyle: AppFonts.bodyMedium.copyWith(
-                  color: AppColors.primary,
+                  color: AppColors.white,
                 ),
               ),
             ),
-          ],
+          ),
+        const SizedBox(
+          height: 20,
         ),
       ],
     );

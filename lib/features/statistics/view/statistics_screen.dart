@@ -260,6 +260,13 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             const SizedBox(
               height: 20,
             ),
+            if (model.statisticScreenState.transactionList.isEmpty)
+              Text(
+                'No transactions yet',
+                style: AppFonts.bodyMedium.copyWith(
+                  color: AppColors.white,
+                ),
+              ),
             ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
