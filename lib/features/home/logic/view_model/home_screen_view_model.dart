@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tt_25/features/home/goals/service/goal_service.dart';
-import 'package:tt_25/features/home/logic/model/transactions_model.dart';
-import 'package:tt_25/features/home/logic/model/weekly_transactions_model.dart';
-import 'package:tt_25/features/home/logic/service/transaction_service.dart';
-import 'package:tt_25/features/home/logic/view_model/home_screen_state.dart';
+import 'package:tt_19/features/home/goals/service/goal_service.dart';
+import 'package:tt_19/features/home/logic/model/transactions_model.dart';
+import 'package:tt_19/features/home/logic/model/weekly_transactions_model.dart';
+import 'package:tt_19/features/home/logic/service/transaction_service.dart';
+import 'package:tt_19/features/home/logic/view_model/home_screen_state.dart';
 
 class HomeScreenViewModel extends ChangeNotifier {
   final TransactionService _transactionModelService = TransactionService();

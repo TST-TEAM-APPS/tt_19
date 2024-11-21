@@ -2,11 +2,11 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:tt_25/core/app_fonts.dart';
-import 'package:tt_25/core/colors.dart';
-import 'package:tt_25/features/home/logic/model/transactions_model.dart';
-import 'package:tt_25/features/statistics/logic/model/date_filter_model.dart';
-import 'package:tt_25/features/statistics/logic/view_model/statistic_screen_view_model.dart';
+import 'package:tt_19/core/app_fonts.dart';
+import 'package:tt_19/core/colors.dart';
+import 'package:tt_19/features/home/logic/model/transactions_model.dart';
+import 'package:tt_19/features/statistics/logic/model/date_filter_model.dart';
+import 'package:tt_19/features/statistics/logic/view_model/statistic_screen_view_model.dart';
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({super.key});

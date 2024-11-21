@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tt_25/core/app_fonts.dart';
-import 'package:tt_25/core/colors.dart';
+import 'package:tt_19/core/app_fonts.dart';
+import 'package:tt_19/core/colors.dart';
 
 class CustomAppBar extends StatefulWidget {
   final String title;

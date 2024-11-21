@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tt_25/core/app_fonts.dart';
+import 'package:tt_19/core/app_fonts.dart';
 
 class OnbPageWidget extends StatelessWidget {
   final String image;

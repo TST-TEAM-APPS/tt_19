@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tt_25/core/app_fonts.dart';
-import 'package:tt_25/core/colors.dart';
-import 'package:tt_25/features/home/goals/view/goal_adding_screen.dart';
-import 'package:tt_25/features/home/goals/view/goal_details_screen.dart';
-import 'package:tt_25/features/home/goals/view_model/goal_view_model.dart';
+import 'package:tt_19/core/app_fonts.dart';
+import 'package:tt_19/core/colors.dart';
+import 'package:tt_19/features/home/goals/view/goal_adding_screen.dart';
+import 'package:tt_19/features/home/goals/view/goal_details_screen.dart';
+import 'package:tt_19/features/home/goals/view_model/goal_view_model.dart';
 
 class GoalListScreen extends StatelessWidget {
   const GoalListScreen({super.key});

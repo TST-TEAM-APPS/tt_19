@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tt_25/features/home/logic/model/transactions_model.dart';
-import 'package:tt_25/features/home/logic/service/transaction_service.dart';
-import 'package:tt_25/features/statistics/logic/model/date_filter_model.dart';
-import 'package:tt_25/features/statistics/logic/view_model/statistic_screen_state.dart';
+import 'package:tt_19/features/home/logic/model/transactions_model.dart';
+import 'package:tt_19/features/home/logic/service/transaction_service.dart';
+import 'package:tt_19/features/statistics/logic/model/date_filter_model.dart';
+import 'package:tt_19/features/statistics/logic/view_model/statistic_screen_state.dart';
 
 class StatisticScreenViewModel extends ChangeNotifier {
   final TransactionService _transactionModelService = TransactionService();

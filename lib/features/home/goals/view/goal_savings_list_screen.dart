@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tt_25/core/app_fonts.dart';
-import 'package:tt_25/core/colors.dart';
-import 'package:tt_25/features/home/goals/model/goals_model.dart';
+import 'package:tt_19/core/app_fonts.dart';
+import 'package:tt_19/core/colors.dart';
+import 'package:tt_19/features/home/goals/model/goals_model.dart';
 
 class GoalSavingsListScreen extends StatefulWidget {
   final GoalModel currentModel;

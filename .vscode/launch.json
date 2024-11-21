@@ -5,19 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "tt_25",
+            "name": "tt_19",
             "request": "launch",
             "type": "dart",
           
         },
         {
-            "name": "tt_25 (profile mode)",
+            "name": "tt_19 (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "tt_25 (release mode)",
+            "name": "tt_19 (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

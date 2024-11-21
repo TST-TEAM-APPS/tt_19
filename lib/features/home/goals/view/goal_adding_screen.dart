@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tt_25/components/custom_button.dart';
-import 'package:tt_25/components/custom_calendar.dart';
-import 'package:tt_25/components/custom_text_field.dart';
-import 'package:tt_25/core/app_fonts.dart';
-import 'package:tt_25/core/colors.dart';
-import 'package:tt_25/features/home/goals/model/goals_model.dart';
-import 'package:tt_25/features/home/goals/view_model/goal_view_model.dart';
+import 'package:tt_19/components/custom_button.dart';
+import 'package:tt_19/components/custom_calendar.dart';
+import 'package:tt_19/components/custom_text_field.dart';
+import 'package:tt_19/core/app_fonts.dart';
+import 'package:tt_19/core/colors.dart';
+import 'package:tt_19/features/home/goals/model/goals_model.dart';
+import 'package:tt_19/features/home/goals/view_model/goal_view_model.dart';
 
 class GoalAddingScreen extends StatefulWidget {
   final GoalViewModel model;

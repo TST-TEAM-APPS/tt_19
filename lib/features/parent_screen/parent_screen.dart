@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tt_25/core/app_fonts.dart';
-import 'package:tt_25/core/btm.dart';
-import 'package:tt_25/core/colors.dart';
-import 'package:tt_25/features/home/logic/view_model/home_screen_view_model.dart';
-import 'package:tt_25/features/home/view/home_screen.dart';
-import 'package:tt_25/features/settings/ui/settings_screen.dart';
-import 'package:tt_25/features/statistics/logic/view_model/statistic_screen_view_model.dart';
-import 'package:tt_25/features/statistics/view/statistics_screen.dart';
+import 'package:tt_19/core/app_fonts.dart';
+import 'package:tt_19/core/btm.dart';
+import 'package:tt_19/core/colors.dart';
+import 'package:tt_19/features/home/logic/view_model/home_screen_view_model.dart';
+import 'package:tt_19/features/home/view/home_screen.dart';
+import 'package:tt_19/features/settings/ui/settings_screen.dart';
+import 'package:tt_19/features/statistics/logic/view_model/statistic_screen_view_model.dart';
+import 'package:tt_19/features/statistics/view/statistics_screen.dart';
 
 class ParentScreen extends StatefulWidget {
   const ParentScreen({super.key});

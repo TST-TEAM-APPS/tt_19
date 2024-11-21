@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:tt_25/features/home/goals/model/goals_model.dart';
+import 'package:tt_19/features/home/goals/model/goals_model.dart';
 
 class GoalService {
   List<GoalModel> _goalList = [];

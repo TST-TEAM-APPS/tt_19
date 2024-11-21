@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
-import 'package:tt_25/features/home/logic/model/transactions_model.dart';
-import 'package:tt_25/features/statistics/logic/model/date_filter_model.dart';
+import 'package:tt_19/features/home/logic/model/transactions_model.dart';
+import 'package:tt_19/features/statistics/logic/model/date_filter_model.dart';
 
 extension DateTimeExtensions on DateTime {
   bool isSameDate(DateTime other) {

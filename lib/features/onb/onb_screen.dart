@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:tt_25/components/custom_button.dart';
-import 'package:tt_25/core/app_fonts.dart';
-import 'package:tt_25/core/colors.dart';
-import 'package:tt_25/features/onb/onb_pages/onb_page_widget.dart';
-import 'package:tt_25/features/parent_screen/parent_screen.dart';
+import 'package:tt_19/components/custom_button.dart';
+import 'package:tt_19/core/app_fonts.dart';
+import 'package:tt_19/core/colors.dart';
+import 'package:tt_19/features/onb/onb_pages/onb_page_widget.dart';
+import 'package:tt_19/features/parent_screen/parent_screen.dart';
 
 class Onb extends StatefulWidget {
   const Onb({super.key});

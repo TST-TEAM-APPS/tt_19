@@ -1,4 +1,4 @@
-name: tt_25
+name: tt_19
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.5.4
+  sdk: ^3.4.3
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -41,6 +41,19 @@ dependencies:
   intl: ^0.20.0
   collection: ^1.17.0
   smooth_page_indicator: ^1.2.0+3
+  webview_flutter_wkwebview: ^3.16.2
+  webview_flutter: ^4.10.0
+  flutter_email_sender: ^6.0.3
+  flutter_launcher_icons: ^0.14.1
+  url_launcher: ^6.3.1
+  get_it: ^8.0.2
+  flagsmith: ^6.0.0
+  in_app_review: ^2.0.10
+  is_first_run: ^1.0.0
+  get_ip_address: ^0.0.7
+  http: ^1.2.2
+  custom_progressbar: ^0.0.2
+  shared_preferences: ^2.3.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

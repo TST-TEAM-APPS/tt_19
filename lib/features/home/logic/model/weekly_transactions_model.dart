@@ -1,4 +1,4 @@
-import 'package:tt_25/features/home/logic/model/transactions_model.dart';
+import 'package:tt_19/features/home/logic/model/transactions_model.dart';
 
 class WeeklyTransactionsModel {
   final List<TransactionModel> transactionModelList;
