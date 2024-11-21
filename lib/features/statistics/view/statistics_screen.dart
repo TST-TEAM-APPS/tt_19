@@ -1,9 +1,11 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tt_25/core/app_fonts.dart';
 import 'package:tt_25/core/colors.dart';
 import 'package:tt_25/features/home/logic/model/transactions_model.dart';
+import 'package:tt_25/features/statistics/logic/model/date_filter_model.dart';
 import 'package:tt_25/features/statistics/logic/view_model/statistic_screen_view_model.dart';
 
 class StatisticsScreen extends StatefulWidget {
@@ -34,11 +36,30 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     if (difference == 0) {
       return "Today";
     } else if (difference == 1) {
-      return "Yesterday}";
+      return "Yesterday";
     } else {
-      return "$difference days ago}";
+      return DateFormat('MMM. d').format(date);
     }
   }
+
+  final List<DateFilterModel> dropDownModelList = [
+    DateFilterModel.allTime,
+    DateFilterModel.today,
+    DateFilterModel.yesterday,
+    DateFilterModel.lastWeek,
+    DateFilterModel.lastYear
+  ];
+
+  DateFilterModel selectedDateFilter = DateFilterModel.allTime;
+
+  final List<CategoryType> dropDonwCategoryTypeModelList = [
+    CategoryType.all,
+    CategoryType.main,
+    CategoryType.secondary,
+    CategoryType.thirdly,
+  ];
+
+  CategoryType selectedCategoryFilter = CategoryType.all;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +79,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   'Statistics',
                   style:
                       AppFonts.displayMedium.copyWith(color: AppColors.white),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
                 const SizedBox(),
               ],
@@ -66,6 +89,174 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
               height: 20,
             ),
             const _TransactionButtons(),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton2<String>(
+                      isExpanded: true,
+                      hint: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'select',
+                              style: AppFonts.bodyMedium
+                                  .copyWith(color: AppColors.white),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                      items:
+                          List.generate(dropDownModelList.length, (int index) {
+                        return DropdownMenuItem(
+                            value: dropDownModelList[index].name,
+                            child: Text(
+                              dropDownModelList[index].name,
+                              style: AppFonts.bodyMedium
+                                  .copyWith(color: AppColors.white),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ));
+                      }),
+                      value: selectedDateFilter.name,
+                      onChanged: (value) {
+                        setState(() {
+                          if (value != null) {
+                            selectedDateFilter =
+                                DateFilterModelExtension.fromString(value);
+                            model.updateFilter(
+                                selectedDateFilter,
+                                selectedCategoryFilter,
+                                model.statisticScreenState
+                                    .currentTransactionType);
+                          }
+                        });
+                      },
+                      buttonStyleData: ButtonStyleData(
+                        height: 30,
+                        padding: const EdgeInsets.only(left: 5, right: 14),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: AppColors.secondary,
+                        ),
+                        elevation: 2,
+                      ),
+                      iconStyleData: IconStyleData(
+                        icon: Transform.rotate(
+                          angle: 3.14159 / 2,
+                          child: const Icon(
+                            Icons.arrow_forward_ios_outlined,
+                          ),
+                        ),
+                        iconSize: 20,
+                        iconEnabledColor: AppColors.white,
+                      ),
+                      dropdownStyleData: DropdownStyleData(
+                        offset: const Offset(0, 30),
+                        elevation: 0,
+                        scrollbarTheme: const ScrollbarThemeData(
+                            thumbColor:
+                                WidgetStatePropertyAll(AppColors.background)),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: AppColors.secondary,
+                        ),
+                      ),
+                      menuItemStyleData: const MenuItemStyleData(
+                        height: 30,
+                        padding: EdgeInsets.only(left: 15, right: 14),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton2<String>(
+                      isExpanded: true,
+                      hint: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'select',
+                              style: AppFonts.bodyMedium
+                                  .copyWith(color: AppColors.white),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                      items: List.generate(dropDonwCategoryTypeModelList.length,
+                          (int index) {
+                        return DropdownMenuItem(
+                            value: dropDonwCategoryTypeModelList[index].name,
+                            child: Text(
+                              dropDonwCategoryTypeModelList[index].name,
+                              style: AppFonts.bodyMedium
+                                  .copyWith(color: AppColors.white),
+                            ));
+                      }),
+                      value: selectedCategoryFilter.name,
+                      onChanged: (value) {
+                        setState(() {
+                          if (value != null) {
+                            selectedCategoryFilter =
+                                CategoryTypeModelExtension.fromString(value);
+                            model.updateFilter(
+                              selectedDateFilter,
+                              selectedCategoryFilter,
+                              model.statisticScreenState.currentTransactionType,
+                            );
+                          }
+                        });
+                      },
+                      buttonStyleData: ButtonStyleData(
+                        height: 30,
+                        padding: const EdgeInsets.only(left: 5, right: 14),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: AppColors.secondary,
+                        ),
+                        elevation: 2,
+                      ),
+                      iconStyleData: IconStyleData(
+                        icon: Transform.rotate(
+                          angle: 3.14159 / 2,
+                          child: const Icon(
+                            Icons.arrow_forward_ios_outlined,
+                          ),
+                        ),
+                        iconSize: 20,
+                        iconEnabledColor: AppColors.white,
+                      ),
+                      dropdownStyleData: DropdownStyleData(
+                        offset: const Offset(0, 30),
+                        elevation: 0,
+                        scrollbarTheme: const ScrollbarThemeData(
+                            thumbColor:
+                                WidgetStatePropertyAll(AppColors.white)),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: AppColors.secondary,
+                        ),
+                      ),
+                      menuItemStyleData: const MenuItemStyleData(
+                        height: 30,
+                        padding: EdgeInsets.only(left: 20, right: 14),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(
               height: 20,
             ),
@@ -88,6 +279,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                           style: AppFonts.bodyLarge.copyWith(
                             color: AppColors.white,
                           ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                         ),
                       ),
                     Container(
@@ -178,7 +371,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   height: 10,
                 );
               },
-            )
+            ),
           ],
         ),
       )),
@@ -206,7 +399,10 @@ class _TransactionButtons extends StatelessWidget {
               highlightColor: Colors.white.withOpacity(0.5),
               borderRadius: BorderRadius.circular(10),
               onTap: () {
-                model.onTransactionFilterByType(TransactionType.income);
+                model.updateFilter(
+                    model.statisticScreenState.currentDateFilter,
+                    model.statisticScreenState.currentCategoryType,
+                    TransactionType.income);
               },
               child: Container(
                 height: 50,
@@ -255,7 +451,10 @@ class _TransactionButtons extends StatelessWidget {
                 : AppColors.secondary,
             child: InkWell(
               onTap: () {
-                model.onTransactionFilterByType(TransactionType.expense);
+                model.updateFilter(
+                    model.statisticScreenState.currentDateFilter,
+                    model.statisticScreenState.currentCategoryType,
+                    TransactionType.expense);
               },
               borderRadius: BorderRadius.circular(10),
               highlightColor: AppColors.white.withOpacity(0.5),

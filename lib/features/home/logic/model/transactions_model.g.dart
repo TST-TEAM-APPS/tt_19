@@ -106,6 +106,8 @@ class TransactionTypeAdapter extends TypeAdapter<TransactionType> {
         return TransactionType.income;
       case 1:
         return TransactionType.expense;
+      case 2:
+        return TransactionType.all;
       default:
         return TransactionType.income;
     }
@@ -119,6 +121,9 @@ class TransactionTypeAdapter extends TypeAdapter<TransactionType> {
         break;
       case TransactionType.expense:
         writer.writeByte(1);
+        break;
+      case TransactionType.all:
+        writer.writeByte(2);
         break;
     }
   }
@@ -147,6 +152,8 @@ class CategoryTypeAdapter extends TypeAdapter<CategoryType> {
         return CategoryType.secondary;
       case 2:
         return CategoryType.thirdly;
+      case 3:
+        return CategoryType.all;
       default:
         return CategoryType.main;
     }
@@ -163,6 +170,9 @@ class CategoryTypeAdapter extends TypeAdapter<CategoryType> {
         break;
       case CategoryType.thirdly:
         writer.writeByte(2);
+        break;
+      case CategoryType.all:
+        writer.writeByte(3);
         break;
     }
   }

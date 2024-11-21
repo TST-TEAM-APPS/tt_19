@@ -5,10 +5,13 @@ import 'package:provider/provider.dart';
 import 'package:tt_25/components/custom_button.dart';
 import 'package:tt_25/core/app_fonts.dart';
 import 'package:tt_25/core/colors.dart';
+import 'package:tt_25/features/home/goals/view/goal_list_screen.dart';
+import 'package:tt_25/features/home/goals/view_model/goal_view_model.dart';
 import 'package:tt_25/features/home/logic/model/transactions_model.dart';
 import 'package:tt_25/features/home/logic/model/weekly_transactions_model.dart';
 import 'package:tt_25/features/home/logic/view_model/home_screen_view_model.dart';
 import 'package:tt_25/features/home/view/transactions_add.dart';
+import 'package:tt_25/features/home/view/transactions_screen/transactions_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -41,6 +44,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: double.infinity,
                 child: BarChartSample2(),
               ),
+              _MyGoalsWidget(),
+              SizedBox(
+                height: 20,
+              ),
               _RecentTransactions(),
               SizedBox(
                 height: 20,
@@ -50,6 +57,59 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     ));
+  }
+}
+
+class _MyGoalsWidget extends StatelessWidget {
+  const _MyGoalsWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'My goals',
+          style: AppFonts.bodyLarge.copyWith(
+            color: AppColors.white,
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              'No goals yet.',
+              style: AppFonts.bodyMedium.copyWith(
+                color: AppColors.white,
+              ),
+            ),
+            SizedBox(
+              width: 130,
+              child: CustomButton.alert(
+                title: 'Let`s add some +',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ChangeNotifierProvider(
+                          create: (_) => GoalViewModel(),
+                          child: const GoalListScreen()),
+                    ),
+                  );
+                },
+                borderRadius: BorderRadius.circular(20),
+                titleStyle: AppFonts.bodyMedium.copyWith(
+                  color: AppColors.primary,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
 
@@ -88,12 +148,21 @@ class _RecentTransactions extends StatelessWidget {
             ),
             CustomButton.alert(
               title: 'See all',
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ChangeNotifierProvider(
+                        create: (_) => HomeScreenViewModel(),
+                        child: const TransactionsScreen()),
+                  ),
+                );
+              },
               borderRadius: BorderRadius.circular(20),
               titleStyle: AppFonts.bodyMedium.copyWith(
                 color: AppColors.white,
               ),
-            )
+            ),
           ],
         ),
         const SizedBox(

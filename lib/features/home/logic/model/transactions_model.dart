@@ -35,6 +35,8 @@ enum TransactionType {
   income,
   @HiveField(1)
   expense,
+  @HiveField(2)
+  all
 }
 
 @HiveType(typeId: 2)
@@ -54,4 +56,32 @@ enum CategoryType {
   secondary,
   @HiveField(2)
   thirdly,
+  @HiveField(3)
+  all,
+}
+
+extension CategoryTypeModelExtension on CategoryType {
+  String get name {
+    switch (this) {
+      case CategoryType.main:
+        return "Main";
+      case CategoryType.secondary:
+        return "Secondary";
+      case CategoryType.thirdly:
+        return "Thirdly";
+      case CategoryType.all:
+        return "All";
+    }
+  }
+
+  static final Map<String, CategoryType> _map = {
+    "Main": CategoryType.main,
+    "Secondary": CategoryType.secondary,
+    "Thirdly": CategoryType.thirdly,
+    "All": CategoryType.all,
+  };
+
+  static CategoryType fromString(String value) {
+    return _map[value] ?? (throw ArgumentError('Unknown value: $value'));
+  }
 }

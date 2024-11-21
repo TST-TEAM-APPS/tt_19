@@ -168,7 +168,7 @@ class _AddingFormState extends State<_AddingForm> {
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: CustomCalendar(
-                value: [widget.selectedTime],
+                value: [widget.selectedDate],
                 onChangeDate: (value) {
                   onChange(value);
                   Navigator.pop(context);
@@ -186,23 +186,21 @@ class _AddingFormState extends State<_AddingForm> {
         return Container(
           color: AppColors.background,
           height: MediaQuery.of(context).copyWith().size.height / 3,
-          child: Expanded(
-            child: CupertinoTheme(
-              data: CupertinoThemeData(
-                textTheme: CupertinoTextThemeData(
-                  dateTimePickerTextStyle: AppFonts.bodyLarge.copyWith(
-                    color: AppColors.white,
-                  ),
+          child: CupertinoTheme(
+            data: CupertinoThemeData(
+              textTheme: CupertinoTextThemeData(
+                dateTimePickerTextStyle: AppFonts.bodyLarge.copyWith(
+                  color: AppColors.white,
                 ),
               ),
-              child: CupertinoDatePicker(
-                use24hFormat: true,
-                mode: CupertinoDatePickerMode.time,
-                initialDateTime: DateTime.now(),
-                onDateTimeChanged: (newTime) {
-                  onChange(newTime);
-                },
-              ),
+            ),
+            child: CupertinoDatePicker(
+              use24hFormat: true,
+              mode: CupertinoDatePickerMode.time,
+              initialDateTime: DateTime.now(),
+              onDateTimeChanged: (newTime) {
+                onChange(newTime);
+              },
             ),
           ),
         );

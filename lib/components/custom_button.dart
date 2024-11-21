@@ -55,9 +55,11 @@ class _CustomButtonState extends State<CustomButton> {
       child: InkWell(
         highlightColor: widget.highlightColor ?? Colors.white.withOpacity(0.7),
         borderRadius: widget.borderRadius,
-        onTap: () {
-          widget.isValid ?? true ? widget.onTap() : null;
-        },
+        onTap: widget.isValid ?? true
+            ? () {
+                widget.onTap();
+              }
+            : null,
         child: Container(
             padding: widget.padding ??
                 EdgeInsets.symmetric(

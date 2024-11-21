@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:tt_25/core/colors.dart';
+import 'package:tt_25/features/home/goals/model/goals_model.dart';
 import 'package:tt_25/features/home/logic/model/transactions_model.dart';
-import 'package:tt_25/features/parent_screen/parent_screen.dart';
+import 'package:tt_25/features/onb/onb_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,6 +12,8 @@ void main() async {
   Hive.registerAdapter(TransactionTypeAdapter());
   Hive.registerAdapter(CategoryAdapter());
   Hive.registerAdapter(CategoryTypeAdapter());
+  Hive.registerAdapter(GoalModelAdapter());
+  Hive.registerAdapter(SavingModelAdapter());
   // FlutterNativeSplash.preserve(widgetsBinding: bindings);
   // await ServiceLocator.setup();
   // addLifecycleHandler();
@@ -36,7 +39,7 @@ class MyApp extends StatelessWidget {
             const BottomSheetThemeData(backgroundColor: Colors.transparent),
         splashFactory: NoSplash.splashFactory,
       ),
-      home: const ParentScreen(),
+      home: const Onb(),
     );
   }
 }

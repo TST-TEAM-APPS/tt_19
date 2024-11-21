@@ -22,7 +22,7 @@ class _ParentScreenState extends State<ParentScreen> {
   final List<PageModel> _pages = [
     PageModel(
         page: ChangeNotifierProvider(
-          create: (_) => HomeScreenViewModel(),
+          create: (context) => HomeScreenViewModel(),
           child: const HomeScreen(),
         ),
         iconPath: 'assets/icons/home_screen.png',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tt_25/features/home/logic/model/transactions_model.dart';
 import 'package:tt_25/features/home/logic/service/transaction_service.dart';
+import 'package:tt_25/features/statistics/logic/model/date_filter_model.dart';
 import 'package:tt_25/features/statistics/logic/view_model/statistic_screen_state.dart';
 
 class StatisticScreenViewModel extends ChangeNotifier {
@@ -15,25 +16,31 @@ class StatisticScreenViewModel extends ChangeNotifier {
 
   Future<void> loadData() async {
     await _transactionModelService.loadData();
-    await _transactionModelService
-        .getTransactionsByType(_statisticScreenState.currentTransactionType);
 
     _statisticScreenState = StatisticScreenState(
       transactionList: _transactionModelService.transactionList,
       dateTimeMapHelper: _transactionModelService.dateTimeMapHelper,
       currentTransactionType: _transactionModelService.transactionType,
+      currentCategoryType: _transactionModelService.categoryType,
+      currentDateFilter: _transactionModelService.dateFilter,
     );
+    updateFilter(_transactionModelService.dateFilter,
+        _transactionModelService.categoryType, TransactionType.income);
 
     notifyListeners();
   }
 
-  Future<void> onTransactionFilterByType(
-      TransactionType transactionType) async {
-    _transactionModelService.getTransactionsByType(transactionType).then((_) {
+  Future<void> updateFilter(DateFilterModel dateFilter,
+      CategoryType categoryType, TransactionType transactionType) async {
+    _transactionModelService
+        .updateFilter(dateFilter, categoryType, transactionType)
+        .then((_) {
       _statisticScreenState = StatisticScreenState(
         transactionList: _transactionModelService.transactionList,
         dateTimeMapHelper: _transactionModelService.dateTimeMapHelper,
         currentTransactionType: _transactionModelService.transactionType,
+        currentCategoryType: _transactionModelService.categoryType,
+        currentDateFilter: _transactionModelService.dateFilter,
       );
       notifyListeners();
     });

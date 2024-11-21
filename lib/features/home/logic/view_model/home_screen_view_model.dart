@@ -16,21 +16,52 @@ class HomeScreenViewModel extends ChangeNotifier {
 
   Future<void> loadData() async {
     await _transactionModelService.loadData();
+    await _transactionModelService.getDividedDateByDay();
 
     _homeScreenState = HomeScreenState(
       transactionList: _transactionModelService.transactionList,
       weeklyTransactions: WeeklyTransactionsModel(
           transactionModelList: _transactionModelService.weeklyTransactions),
+      dateTimeMapHelper: _transactionModelService.dateTimeMapHelper,
       balance: _transactionModelService.balance,
     );
 
     notifyListeners();
   }
 
+  void sortDate() {
+    _transactionModelService.sortDate().then((_) {
+      _homeScreenState = HomeScreenState(
+        transactionList: _transactionModelService.transactionList,
+        weeklyTransactions: WeeklyTransactionsModel(
+            transactionModelList: _transactionModelService.weeklyTransactions),
+        dateTimeMapHelper: _transactionModelService.dateTimeMapHelper,
+        balance: _transactionModelService.balance,
+      );
+
+      notifyListeners();
+    });
+  }
+
+  Future<void> updateDate(DateTime date) async {
+    await _transactionModelService.updateDate(date).then((_) {
+      _homeScreenState = HomeScreenState(
+        transactionList: _transactionModelService.transactionList,
+        weeklyTransactions: WeeklyTransactionsModel(
+            transactionModelList: _transactionModelService.weeklyTransactions),
+        dateTimeMapHelper: _transactionModelService.dateTimeMapHelper,
+        balance: _transactionModelService.balance,
+      );
+
+      notifyListeners();
+    });
+  }
+
   Future<void> onTransactionAdd(TransactionModel transactionModel) async {
     _transactionModelService.addTransaction(transactionModel).then((_) {
       _homeScreenState = HomeScreenState(
         transactionList: _transactionModelService.transactionList,
+        dateTimeMapHelper: _transactionModelService.dateTimeMapHelper,
         weeklyTransactions: WeeklyTransactionsModel(
             transactionModelList: _transactionModelService.weeklyTransactions),
         balance: _transactionModelService.balance,
