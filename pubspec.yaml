@@ -3,7 +3,7 @@ description: "A new Flutter project."
 
 publish_to: 'none' 
 
-version: 1.0.0+1
+version: 1.0.1+1
 
 environment:
   sdk: ^3.4.3
@@ -47,7 +47,7 @@ dev_dependencies:
 
   
 flutter_native_splash:
-  color: "#6486CC" 
+  color: "#1A0C20" 
   image: assets/images/icon.png 
   
 flutter_launcher_icons:
